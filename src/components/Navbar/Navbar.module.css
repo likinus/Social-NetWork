@@ -1,0 +1,44 @@
+.nav {
+  grid-area: nav;
+  background-color: brown;
+  padding: 20px;
+}
+
+.item {
+  color: white;
+}
+
+.item a {
+  text-decoration: none;
+  color: white;
+}
+
+.item a.active {
+  color: gold;
+}
+
+.title {
+  color: white;
+}
+
+.circle {
+  display: inline-block;
+  background-color: yellow;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.block:last-child {
+  margin-right: 0;
+}
+
+.friendsName {
+  color: white;
+}
+
+.block {
+  margin-top: 20px;
+  display: inline-block;
+  margin-right: 15px;
+}

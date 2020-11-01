@@ -1,0 +1,13 @@
+.userPhoto {
+  width: 100px;
+  height: 100px;
+}
+
+.selectedPage {
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.pageNumber {
+  margin: 0 5px;
+}

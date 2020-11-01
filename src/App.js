@@ -1,26 +1,83 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense } from 'react';
 import './App.css';
+import Nav from './components/Navbar/Nav';
+import { BrowserRouter, Route } from 'react-router-dom';
+import News from './components/News/News';
+import Music from './components/Music/Music';
+import Settings from './components/Settings/Settings';
+//import DialogsContainer from './components/Dialogs/DialogsContainer';
+import UsersContainer from './components/Users/UsersContainer';
+//import ProfileContainer from './components/Profile/ProfileContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login';
+import { connect, Provider } from 'react-redux';
+import { initializeApp } from './Redux/appReducer';
+import Preloader from './components/common/Preloader/Preloader';
+import store from './Redux/reduxStore';
+import { withSuspense } from './HOC/withSuspense';
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    if (!this.props.initialized) {
+      return <Preloader />;
+    }
+
+    return (
+      <div className="app-wrapper">
+        <HeaderContainer />
+        <Nav state={this.props.state} />
+        <div className="app-wrapper-content">
+          <Route path="/dialogs">
+            <Suspense fallback={<Preloader />}>
+              <DialogsContainer />
+            </Suspense>
+          </Route>
+          <Route path="/profile/:userId?">
+            <Suspense fallback={<Preloader />}>
+              <ProfileContainer />
+            </Suspense>
+          </Route>
+          <Route path="/news">
+            <News />
+          </Route>
+          <Route path="/music">
+            <Music />
+          </Route>
+          <Route path="/settings">
+            <Settings />
+          </Route>
+          <Route path="/users">
+            <UsersContainer />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized,
+});
+
+let AppContainer = connect(mapStateToProps, { initializeApp })(App);
+
+let MainApp = (props) => {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    </BrowserRouter>
+  );
+};
+
+export default MainApp;
