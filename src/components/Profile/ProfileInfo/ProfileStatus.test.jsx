@@ -37,7 +37,9 @@ describe('ProfileStatus component', () => {
     const mockCallback = jest.fn();
     const component = create(<ProfileStatus status="IT-kama" updateStatus={mockCallback} />);
     const instace = component.getInstance();
+    console.log(instace)
     instace.deactivateEditMode();
+    console.log(mockCallback.mock.calls.length)
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 });

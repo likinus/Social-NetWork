@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import { Field, reduxForm } from 'redux-form';
 import { maxLengthCreator, required } from '../../../utils/validators/validators';
 import { TextArea } from '../../common/Preloader/FormsControls/FormsControls';
 
-const maxLength30 = maxLengthCreator(30);
+const maxLength30 = maxLengthCreator(90);
 
 const MyPosts = React.memo((props) => {
   let postsElements = props.posts.map((post) => (
@@ -15,9 +15,6 @@ const MyPosts = React.memo((props) => {
   let addNewPost = (values) => {
     props.addPost(values.newPostText);
   };
-
-  console.log('render');
-  console.log(props);
 
   return (
     <div className={s.postsBlock}>
